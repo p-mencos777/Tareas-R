@@ -1,0 +1,145 @@
+Funciones en R
+Una función es un conjunto de instrucciones que convierten una entrada (imput)
+en resultados (output) que deseamos.
+Las partes de una función en R son:
+-Entradas o argumentos: sirven para ingresar información necesaria para llevar a cabo el procedimiento de la función.
+-Cuerpo: está formado por un conjunto de instrucciones que transforman las entradas en las salidas deseadas. Si el cuerpo de la funcion está formado por varias funciones, estas deben ir entre llaves {}.
+-Salidas: son los resultados de la función. Toda función debe tener al menos un resultado.
+
+Estructura de una función
+
+nombre_de_funcion <- function(par1, par2, ...) {
+
+cuerpo
+
+cuerpo
+
+..
+
+return(resultado)
+
+}
+
+Ejemplo
+
+Construir una función que genere números aleatorios entre cero y uno hasta que la suma de éstos números supere por primera vez el valor de 3. La función debe entregar la cantidad de números aleatorios generados para que se cumpla la condición.
+
+```{r}
+fun1 <- function() {
+  num <- runif(1)
+  veces <- 1
+  while (sum(num) < 3) {
+    veces <- veces + 1
+    num[veces] <- runif(1)
+  }
+  return(veces)
+
+}
+
+fun1() # primera prueba
+```
+Argumentos de una funcion
+
+Los argumentos de una funcion son una serie de valores que se pasan a la función, de modo que ciertas variables dentro de las mismas tienen diferentes valores en cada llamada a la funcion.
+
+```{r}
+f <- function(x = NULL, y = NULL)
+{
+  if (!is.null(x) & !is.null(y)){
+    print(x+y)
+  }else{
+    print('faltan valores')
+  }
+}
+```
+
+Valores de retorno
+
+Para hacer que una función devuelva algun valor tenemos dos opciones:
+
+Una es hacer que la ultimo linea de código evaluada dentro de una función sea el valor que queremos que devuelva.
+
+Función que cuenta la cantidad de vocales en una cadena que
+se pasa como argumento 
+```{r}
+contar_vocales <- function(frase) 
+{
+  cantidad_vocales <- 0 
+  frase <- tolower(frase)
+  frase <- strsplit(frase, "")[[1]]
+ 
+  for (i in frase)
+  {
+    if (i %in% c("a", "e", "i", "o", "u"))
+    {
+      cantidad_vocales <- cantidad_vocales + 1
+    } 
+  }
+  cantidad_vocales 
+}
+
+resultado <- contar_vocales("Hola mundo, nuevamente")
+resultado
+```
+La segunda opcion es específicamente con el comando return(). En este caso, cuando se ejecuta esta instrucción dentro de la función, esta devuelve inmediatamente el valor indicado.
+
+f <- function(<argumentos>) 
+{
+  if (<alguna_condición>) return(<señal>)
+  # Código de la función 
+  ...
+  x # objeto que devuelve la función 
+}
+
+Familia apply
+
+La familia de funciones apply es usada para aplicar una función a cada elemento de la estructura da datos. En sí es usada para aplicar funciones en matrices, data frames, arreglos, datos, etc.
+
+Lapply
+Lapply es un caso especial de apply, está diseñado para aplicar funciones a todos los elementos de una lista. La letra l de su nombre hace referencia precisamente a lista.
+
+Podemos usar lapply aplicando una funcion a un dataframe. 
+
+Sintaxis 
+lapply(X,    Lista o vector
+       FUN,  Función a ser aplicada
+       ...)  Argumentos adicionales para ser pasados a FUN
+Ejemplo
+
+```{r}
+c <- list(A = c(56, 12, 57, 24), B = c(89, 12, 64, 18, 65, 76))
+
+lapply(c,                           
+       quantile,                    
+       probs = c(0.25, 0.5, 0.75))
+```
+
+Sapply()
+
+La funcion sapply aplica una funcion a un vector o una lista, y devuelve un vector, una matriz o un array.
+
+Sintaxis
+
+sapply(X,    Vector o lista
+       FUN,  Función a ser aplicada
+       ...,  Argumentos adicionales para ser pasados a FUN
+       simplify = TRUE,   Si es FALSE devuelve una lista. Si "array" devuelve un array si es posible
+       USE.NAMES = TRUE) 
+
+Ejemplo       
+```{r}
+sapply(1:10, function(i) i ^ 2)
+```
+       
+Vapply()
+
+vapply devuelve un vector con la longitud que tiene cada una de las listas introducidad como parámetro.
+
+Ejemplo
+
+```{r}
+x <- list(A = 1, B = 1:3, C = 1:7)
+
+vapply(x, FUN = length, FUN.VALUE = 0L)
+```
+

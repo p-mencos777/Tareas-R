@@ -1,0 +1,69 @@
+Tarea 3
+Leer archivos .csv
+
+```{r}
+library(readr)
+
+file.choose()
+```
+```{r}
+archivo <- "C:\\Users\\PabloGarcia\\Documents\\MAESTRIA\\FUNDAMENTOS DE PROGRAMACIÓN Y SCRIPTING\\primary_results.csv"
+```
+
+```{r}
+dataset_results <- "C:\\Users\\PabloGarcia\\Documents\\MAESTRIA\\FUNDAMENTOS DE PROGRAMACIÓN Y SCRIPTING\\primary_results.csv"
+```
+```{r}
+install.packages("devtools")
+
+```
+```{r}
+library(EDAWR)
+
+
+```
+1. Filtrar votos de Florida
+
+```{r}
+gapminder %>%
+  filter(Florida) %>%
+  summarize(medianLifeExp = median(lifeExp), maxGdpPercap = max(gdpPercap))
+
+
+```
+
+Filtrar votos para Hilary Clinton o Trump
+
+```{r}
+Votos <- gapminder %>%
+  filter(Conteo==Clinton | Trump) %>%
+  group_by(candidate) %>%
+  summarize(medianGdpCandidato = median(gdpCandidato))
+```
+
+Filtrar votos para partido Democrata y Condado Shelby
+
+```{r}
+votos <- gapminder %>%
+  filter(Conteo2==Democrata % Shelby) %>%
+         group_by(countyfips) %>%
+           summarize(medianGdpFips = median(gdpFips))
+  
+```
+
+Filtrar Alabama menor que 1500
+
+```{r}
+estado <- gapminder %>%
+  filter(Count3==Alabama, Alabama<1500)
+  
+```
+
+3.Select y Arrange
+
+```{r}
+select(party, candidate, votes)
+arrange(votes)
+
+```
+

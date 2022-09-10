@@ -1,0 +1,62 @@
+Tarea 5
+Stack Overflow
+
+1.
+```{r}
+library(tidyverse)
+
+questions <- read_csv('questions.csv')
+answers <- read_csv('answers.csv')
+tags <- read_csv('tags.csv')
+questions_tags <- read_csv('question_tags.csv')
+
+```
+1. Left-joining questions and tags
+
+```{r}
+questions
+questions_tags
+
+question_with_tags <- questions %>%
+  left_join(questions_tags, by=c("id"="question_id")) %>%
+  left_join(tags, by=c("tag_id"="id")) %>%
+  replace_na(list(tag_name="only-r"))
+
+
+```
+2. Comparing scores across tags
+
+```{r}
+tags
+question_with_tags %>%
+  group_by(tag_id) %>%
+  summarize(mean_score = mean(score)) %>%
+  arrange(desc(mean_score))
+```
+3. Finding gaps between questions and answers
+
+```{r}
+answers
+questions %>%
+  inner_join(answers, by=c("id"="question_id"), suffix=c("_question","_answer")) %>%
+  mutate(gap = creation_date_answer - creation_date_question)
+  
+```
+4. Joining question and answer counts
+
+```{r}
+answer_counts <- answers %>%
+  count(question_id) %>%
+
+question_answer_counts <- questions %>%
+  left_join(answer_counts, by=c("id"= "question_id")) %>%
+    replace_na(list(n=0))
+```
+5. Joining questions, answers, and tags
+
+```{r}
+questions_tags %>%
+  inner_join(question_answer_counts, by=c("question_id"="id")) %>%
+  inner_join(tags, by=c("tag_id"="id"))
+```
+

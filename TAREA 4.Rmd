@@ -1,0 +1,51 @@
+Tarea 4
+Diamonds
+
+```{r}
+library(tidyverse)
+diamonds <- read.csv('diamonds.csv')
+str(diamonds)
+
+```
+Agregando geometrías:
+1. Dispersión
+
+```{r}
+ggplot(diamonds, aes(x=carat, y=price))
+ggplot(diamonds, aes(x=carat, y=price, color=clarity))
+
+
+  
+```
+2. Histograma
+
+```{r}
+library(gapminder)
+library(ggplot2)
+library(dplyr)
+
+price <- gapminder %>%
+ggplot(diamonds, aes(x=carat)) +
+  geom_histogram(bins = 40) +
+  scale_x_log10()
+  
+```
+3. Boxplots
+
+```{r}
+diamonds <- diamonds %>%
+
+ggplot(diamonds, aes(x=cut, y=price)) +
+  geom_boxplot() +
+  scale_y_log10()
+  
+```
+4. Faceting
+
+```{r}
+by_diamonds <- gapminder%>%
+  filter(price > 1000) %>%
+  filter(cut %in% c("Good","Ideal","Premium"))
+filtered_price()
+```
+
